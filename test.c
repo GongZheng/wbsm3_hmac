@@ -21,7 +21,7 @@ void dump(const uint8_t *li, int len)
 
 int main() {
     unsigned char *msg;
-    msg = "Hello World!";
+    msg = "Hello World!!!";
     unsigned char digest[SM3_DIGEST_LENGTH];
 
     sm3(msg, strlen(msg), digest);
