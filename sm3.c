@@ -1,6 +1,15 @@
 #include <stdint.h>
 #include "sm3.h"
 
+uint32_t swap32(uint32_t num)
+{
+	return ((num >> 24) & 0xff) |	// move byte 3 to byte 0
+		   ((num << 8) & 0xff0000) | // move byte 1 to byte 2
+		   ((num >> 8) & 0xff00) |   // move byte 2 to byte 1
+		   ((num << 24) & 0xff000000);
+}
+
+#define m_htole32(p) swap32(p)
 void sm3_init(sm3_ctx_t *ctx)
 {
 	ctx->digest[0] = 0x7380166F;
@@ -60,12 +69,12 @@ void sm3_final(sm3_ctx_t *ctx, unsigned char *digest)
 		memset(ctx->block, 0, SM3_BLOCK_SIZE - 8);
 	}
 
-	count[0] = cpu_to_be32((uint32_t)(ctx->nblocks >> 23));
-	count[1] = cpu_to_be32((uint32_t)(ctx->nblocks << 9) + (ctx->num << 3));
+	count[0] = m_htole32((uint32_t)(ctx->nblocks >> 23));
+	count[1] = m_htole32((uint32_t)(ctx->nblocks << 9) + (ctx->num << 3));
 
 	sm3_compress(ctx->digest, ctx->block);
 	for (i = 0; i < sizeof(ctx->digest)/sizeof(ctx->digest[0]); i++) {
-		pdigest[i] = cpu_to_be32(ctx->digest[i]);
+		pdigest[i] = m_htole32(ctx->digest[i]);
 	}
 }
 
@@ -98,7 +107,7 @@ void sm3_compress(uint32_t digest[8], const unsigned char block[64])
 	uint32_t SS1,SS2,TT1,TT2,T[64];
 
 	for (j = 0; j < 16; j++) {
-		W[j] = cpu_to_be32(pblock[j]);
+		W[j] = m_htole32(pblock[j]);
 	}
 	for (j = 16; j < 68; j++) {
 		W[j] = P1( W[j-16] ^ W[j-9] ^ ROTATELEFT(W[j-3],15)) ^ ROTATELEFT(W[j - 13],7 ) ^ W[j-6];;

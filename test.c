@@ -1,6 +1,24 @@
 #include<stdio.h>
 #include "sm3.h"
 
+void dump(const uint8_t *li, int len)
+{
+    int line_ctrl = 16;
+    int i;
+    for (i = 0; i < len; i++)
+    {
+        printf("%02X", (*li++));
+        if ((i + 1) % line_ctrl == 0)
+        {
+            printf("\n");
+        }
+        else
+        {
+            printf(" ");
+        }
+    }
+}
+
 int main() {
     unsigned char *msg;
     msg = "Hello World!";
@@ -8,5 +26,9 @@ int main() {
 
     sm3(msg, strlen(msg), digest);
 
-    return 0;
+    dump(digest,sizeof(digest));
+    
+    printf("\n");
+
+        return 0;
 }

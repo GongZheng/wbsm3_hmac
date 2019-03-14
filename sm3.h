@@ -37,13 +37,4 @@ void sm3_hmac(const unsigned char *data, size_t data_len,
 	const unsigned char *key, size_t key_len, unsigned char mac[SM3_HMAC_SIZE]);
 
 void sm3(const unsigned char *msg, size_t msglen,
-	unsigned char dgst[SM3_DIGEST_LENGTH])
-{
-	sm3_ctx_t ctx;
-
-	sm3_init(&ctx);
-	sm3_update(&ctx, msg, msglen);
-	sm3_final(&ctx, dgst);
-
-	memset(&ctx, 0, sizeof(sm3_ctx_t));
-}
+	unsigned char dgst[SM3_DIGEST_LENGTH]);
