@@ -22,7 +22,9 @@ void dump(const uint8_t *li, int len)
 int main() {
     unsigned char *msg;
     msg = "Hello World!!!";
+    unsigned char *key = "123456";
     unsigned char digest[SM3_DIGEST_LENGTH];
+    unsigned char mac[SM3_HMAC_SIZE];
 
     sm3(msg, strlen(msg), digest);
 
@@ -30,5 +32,11 @@ int main() {
     
     printf("\n");
 
-        return 0;
+    sm3_hmac(msg, strlen(msg), key, strlen(key), mac);
+
+    dump(mac, sizeof(mac));
+
+    printf("\n");
+
+    return 0;
 }

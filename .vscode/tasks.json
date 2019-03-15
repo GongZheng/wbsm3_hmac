@@ -8,10 +8,12 @@
             "type": "shell",
             "command": "clang",
             "args": [
-                "${file}",
+                "${fileBasenameNoExtension}.c",
+                "sm3.c",
+                "sm3_hmac.c",
                 "-g",
                 "-o",
-                "${file}.o"
+                "${fileBasenameNoExtension}.o"
             ],
             "problemMatcher": [
                 "$gcc"

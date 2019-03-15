@@ -35,6 +35,3 @@ void sm3_hmac_update(sm3_hmac_ctx_t *ctx, const unsigned char *data, size_t data
 void sm3_hmac_final(sm3_hmac_ctx_t *ctx, unsigned char mac[SM3_HMAC_SIZE]);
 void sm3_hmac(const unsigned char *data, size_t data_len,
 	const unsigned char *key, size_t key_len, unsigned char mac[SM3_HMAC_SIZE]);
-
-void sm3(const unsigned char *msg, size_t msglen,
-	unsigned char dgst[SM3_DIGEST_LENGTH]);
